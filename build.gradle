@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version "${project.loom_version}"
+	id 'fabric-loom' version '1.10'
 	id 'maven-publish'
 }
 
@@ -7,7 +7,7 @@ version = project.version
 group = project.group
 
 repositories {
-	// Custom repositories
+	// Add repositories here if needed
 }
 
 dependencies {
