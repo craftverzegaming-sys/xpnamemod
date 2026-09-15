@@ -9,45 +9,44 @@ import net.minecraft.client.render.RenderTickCounter;
 
 public class XPNameModClient implements ClientModInitializer {
 
-    @Override
-    public void onInitializeClient() {
-        HudRenderCallback.EVENT.register(this::drawCustomHudText);
-    }
+	@Override
+	public void onInitializeClient() {
+		HudRenderCallback.EVENT.register(this::onHudRender);
+	}
 
-    private void drawCustomHudText(DrawContext context, RenderTickCounter tickCounter) {
-        MinecraftClient client = MinecraftClient.getInstance();
+	private void onHudRender(DrawContext drawContext, RenderTickCounter tickCounter) {
+		MinecraftClient client = MinecraftClient.getInstance();
 
-        if (client == null || client.player == null || client.world == null) return;
-        if (client.options.hudHidden || client.textRenderer == null) return;
+		if (client.player == null || client.options.hudHidden) {
+			return;
+		}
 
-        // Render in Survival and Adventure mode
-        if (!client.player.isCreative() && !client.player.isSpectator()) {
-            TextRenderer textRenderer = client.textRenderer;
-            String playerName = client.player.getName().getString();
+		if (client.interactionManager != null && client.interactionManager.hasStatusBars()) {
+			String username = client.player.getName().getString();
+			TextRenderer textRenderer = client.textRenderer;
 
-            int textWidth = textRenderer.getWidth(playerName);
-            int screenWidth = context.getScaledWindowWidth();
-            int screenHeight = context.getScaledWindowHeight();
+			int screenWidth = client.getWindow().getScaledWidth();
+			int screenHeight = client.getWindow().getScaledHeight();
 
-            int x = (screenWidth - textWidth) / 2;
-            int y = screenHeight - 48;
+			int textWidth = textRenderer.getWidth(username);
+			int x = (screenWidth - textWidth) / 2;
+			int y = screenHeight - 32 - 10;
 
-            // 0xFF in the high byte sets 100% opacity (0xAARRGGBB)
-            int xpGreenColor = 0xFF80FF20;
-            int outlineColor = 0xFF000000;
+			int textColor = 0xFF80FF20;
+			int outlineColor = 0xFF000000;
 
-            // 8-way black outline
-            context.drawText(textRenderer, playerName, x - 1, y - 1, outlineColor, false);
-            context.drawText(textRenderer, playerName, x,     y - 1, outlineColor, false);
-            context.drawText(textRenderer, playerName, x + 1, y - 1, outlineColor, false);
-            context.drawText(textRenderer, playerName, x - 1, y,     outlineColor, false);
-            context.drawText(textRenderer, playerName, x + 1, y,     outlineColor, false);
-            context.drawText(textRenderer, playerName, x - 1, y + 1, outlineColor, false);
-            context.drawText(textRenderer, playerName, x,     y + 1, outlineColor, false);
-            context.drawText(textRenderer, playerName, x + 1, y + 1, outlineColor, false);
+			// 8-way outline rendering
+			drawContext.drawText(textRenderer, username, x - 1, y - 1, outlineColor, false);
+			drawContext.drawText(textRenderer, username, x,     y - 1, outlineColor, false);
+			drawContext.drawText(textRenderer, username, x + 1, y - 1, outlineColor, false);
+			drawContext.drawText(textRenderer, username, x - 1, y,     outlineColor, false);
+			drawContext.drawText(textRenderer, username, x + 1, y,     outlineColor, false);
+			drawContext.drawText(textRenderer, username, x - 1, y + 1, outlineColor, false);
+			drawContext.drawText(textRenderer, username, x,     y + 1, outlineColor, false);
+			drawContext.drawText(textRenderer, username, x + 1, y + 1, outlineColor, false);
 
-            // Centered green name text
-            context.drawText(textRenderer, playerName, x, y, xpGreenColor, false);
-        }
-    }
+			// Main text
+			drawContext.drawText(textRenderer, username, x, y, textColor, false);
+		}
+	}
 }
