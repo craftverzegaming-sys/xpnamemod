@@ -1,12 +1,11 @@
 {
-	"required": true,
-	"package": "com.xpnamemod.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
-	}
+  "required": true,
+  "package": "com.xpnamemod.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "InGameHudMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }
