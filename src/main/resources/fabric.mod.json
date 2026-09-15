@@ -6,8 +6,11 @@
 	"description": "Renders player name above the XP bar.",
 	"authors": ["Me!"],
 	"license": "CC0-1.0",
-	"environment": "client",
+	"environment": "*",
 	"entrypoints": {
+		"main": [
+			"com.xpnamemod.XPNameMod"
+		],
 		"client": [
 			"com.xpnamemod.XPNameModClient"
 		]
