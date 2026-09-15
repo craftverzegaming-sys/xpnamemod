@@ -3,16 +3,9 @@
 	"id": "xp-name-mod",
 	"version": "${version}",
 	"name": "XP Name Mod",
-	"description": "Displays player name formatted like XP text above the XP bar.",
-	"authors": [
-		"Me!"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
+	"description": "Renders player name formatted like XP text above the XP bar.",
+	"authors": ["Me!"],
 	"license": "CC0-1.0",
-	"icon": "assets/xp-name-mod/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -22,6 +15,9 @@
 			"com.xpnamemod.XPNameModClient"
 		]
 	},
+	"mixins": [
+		"xp-name-mod.mixins.json"
+	],
 	"depends": {
 		"fabricloader": ">=0.19.5",
 		"minecraft": "~1.21.11",
