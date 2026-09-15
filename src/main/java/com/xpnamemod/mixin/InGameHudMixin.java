@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderTickCounter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class InGameHudMixin {
 
     @Inject(method = "renderExperienceLevel", at = @At("HEAD"), cancellable = true)
-    private void renderPlayerNameInsteadOfXp(DrawContext context, float delta, CallbackInfo ci) {
+    private void renderPlayerNameInsteadOfXp(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         MinecraftClient client = MinecraftClient.getInstance();
 
         if (client != null && client.player != null && client.textRenderer != null) {
@@ -24,14 +25,14 @@ public class InGameHudMixin {
             int screenWidth = context.getScaledWindowWidth();
             int screenHeight = context.getScaledWindowHeight();
 
-            // Precise vanilla XP height calculation
+            // Position directly above experience bar
             int x = (screenWidth - textWidth) / 2;
             int y = screenHeight - 36;
 
             int xpGreenColor = 0x80FF20;
             int outlineColor = 0x000000;
 
-            // Authentic 8-way thick vanilla XP text outline
+            // 8-way classic thick outline
             context.drawText(textRenderer, playerName, x - 1, y - 1, outlineColor, false);
             context.drawText(textRenderer, playerName, x,     y - 1, outlineColor, false);
             context.drawText(textRenderer, playerName, x + 1, y - 1, outlineColor, false);
@@ -41,11 +42,10 @@ public class InGameHudMixin {
             context.drawText(textRenderer, playerName, x,     y + 1, outlineColor, false);
             context.drawText(textRenderer, playerName, x + 1, y + 1, outlineColor, false);
 
-            // Green Player Name
+            // Green text
             context.drawText(textRenderer, playerName, x, y, xpGreenColor, false);
         }
 
-        // Stops vanilla from rendering the level numbers completely
         ci.cancel();
     }
 }
