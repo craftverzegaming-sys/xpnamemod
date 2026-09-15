@@ -3,7 +3,7 @@
 	"id": "xp-name-mod",
 	"version": "${version}",
 	"name": "XP Name Mod",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Displays player name formatted like XP text above the XP bar.",
 	"authors": [
 		"Me!"
 	],
@@ -17,11 +17,11 @@
 	"entrypoints": {
 		"main": [
 			"com.xpnamemod.XPNameMod"
+		],
+		"client": [
+			"com.xpnamemod.XPNameModClient"
 		]
 	},
-	"mixins": [
-		"xp-name-mod.mixins.json"
-	],
 	"depends": {
 		"fabricloader": ">=0.19.5",
 		"minecraft": "~1.21.11",
