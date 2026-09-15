@@ -3,7 +3,7 @@
 	"id": "xp-name-mod",
 	"version": "${version}",
 	"name": "XP Name Mod",
-	"description": "Renders player name formatted like XP text above the XP bar.",
+	"description": "Renders player name above the XP bar.",
 	"authors": ["Me!"],
 	"license": "CC0-1.0",
 	"environment": "*",
