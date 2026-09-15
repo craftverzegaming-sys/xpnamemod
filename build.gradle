@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.7-SNAPSHOT'
+	id 'fabric-loom' version '1.10'
 	id 'maven-publish'
 }
 
@@ -13,25 +13,23 @@ repositories {
 dependencies {
 	minecraft "com.mojang:minecraft:1.21.11"
 	mappings "net.fabricmc:yarn:1.21.11+build.1:v2"
-	modImplementation "net.fabricmc:fabric-loader:0.19.5"
+	modImplementation "net.fabricmc:fabric-loader:0.16.10"
 
 	// Fabric API
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.115.0+1.21.11"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:0.141.3+1.21.11"
 }
 
-// Generates the refmap required to prevent Mixin runtime crashes
 loom {
 	mixin {
-		defaultRefmapName = "xp-name-mod.refmap.json"
+		defaultRefmapName.set("xp-name-mod.refmap.json")
 	}
 }
 
 processResources {
-	def version = project.version
-	inputs.property "version", version
+	inputs.property "version", project.version
 
 	filesMatching("fabric.mod.json") {
-		expand "version": version
+		expand "version": project.version
 	}
 }
 
@@ -46,11 +44,12 @@ java {
 }
 
 jar {
-	def projectName = project.name
-	inputs.property "projectName", projectName
+	inputs.property "projectName", project.name
 
-	from("LICENSE") {
-		rename { "${it}_$projectName"}
+	if (file("LICENSE").exists()) {
+		from("LICENSE") {
+			rename { "${it}_${project.name}" }
+		}
 	}
 }
 
