@@ -20,7 +20,7 @@ public class XPNameModClient implements ClientModInitializer {
         if (client == null || client.player == null || client.world == null) return;
         if (client.options.hudHidden || client.textRenderer == null) return;
 
-        // Render in Survival/Adventure mode
+        // Render in Survival and Adventure mode
         if (!client.player.isCreative() && !client.player.isSpectator()) {
             TextRenderer textRenderer = client.textRenderer;
             String playerName = client.player.getName().getString();
@@ -29,12 +29,12 @@ public class XPNameModClient implements ClientModInitializer {
             int screenWidth = context.getScaledWindowWidth();
             int screenHeight = context.getScaledWindowHeight();
 
-            // Render slightly above the default XP number area to prevent text overlap
             int x = (screenWidth - textWidth) / 2;
             int y = screenHeight - 48;
 
-            int xpGreenColor = 0x80FF20;
-            int outlineColor = 0x000000;
+            // 0xFF in the high byte sets 100% opacity (0xAARRGGBB)
+            int xpGreenColor = 0xFF80FF20;
+            int outlineColor = 0xFF000000;
 
             // 8-way black outline
             context.drawText(textRenderer, playerName, x - 1, y - 1, outlineColor, false);
@@ -46,7 +46,7 @@ public class XPNameModClient implements ClientModInitializer {
             context.drawText(textRenderer, playerName, x,     y + 1, outlineColor, false);
             context.drawText(textRenderer, playerName, x + 1, y + 1, outlineColor, false);
 
-            // Green text
+            // Centered green name text
             context.drawText(textRenderer, playerName, x, y, xpGreenColor, false);
         }
     }
